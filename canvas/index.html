@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<style>
+			body{
+				overflow: hidden;
+			}
+		</style>
+	</head>
+	<body>
+		<canvas></canvas>
+	</body>
+</html>
+<script>
+	var canvas = document.getElementsByTagName("canvas")[0];
+	var w = canvas.width = window.innerWidth;
+	var h = canvas.height = window.innerHeight;
+	var ctx = canvas.getContext("2d");
+	ctx.beginPath();
+	ctx.fillStyle = "red";
+	ctx.rect(100,100,200,200);
+	ctx.stroke();
+	ctx.fill();
+	ctx.closePath();
+	ctx.beginPath();
+	ctx.fillStyle = "blue";
+	ctx.arc(500,500,100,0,2*Math.PI,true);
+	ctx.stroke();
+	ctx.fill();
+	ctx.closePath();
+	ctx.beginPath();
+	ctx.strokeStyle = "yellow";
+	ctx.lineWidth = 10;
+	ctx.lineCap = "round";
+	ctx.moveTo(600,0);
+	ctx.lineTo(600,600);
+	ctx.stroke();
+	
+	ctx.closePath();
+</script>

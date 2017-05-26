@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			body{
+				overflow: hidden;
+			}
+		</style>
+	</head>
+	<body>
+		<canvas></canvas>
+	</body>
+</html>
+<script>
+	var canvas = document.getElementsByTagName("canvas")[0];
+	var w = canvas.width = window.innerWidth;
+	var h = canvas.height = window.innerHeight;
+	var ctx = canvas.getContext("2d");
+	var c = ctx.createLinearGradient(100,100,100,300);
+	c.addColorStop(0,"red");
+	c.addColorStop(1,"blue");
+	ctx.fillStyle = c;
+	ctx.fillRect(100,100,200,200);
+	ctx.stroke();
+</script>

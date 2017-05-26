@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv = "X-UA-Compatible" content = "IE=edge,chrome=1">
+		<meta name="keywords" content="canvas">
+		<meta name="robots" content="all">
+		<meta name="author" content="lut">
+		<title>刮刮乐</title>
+		<style type="text/css">
+			*{
+				padding: 0;
+				margin: 0;
+			}
+			.box{
+				margin-top: 50px;
+				text-align: center;
+			}
+			.canvas_ele{
+				background-color: #aaa;
+			}
+		</style>
+	</head>
+	<body>
+		<!--[if lt IE 9]>
+			<label>这位少侠，你的刀已经跟不上目前流行刀客的节奏，赶紧升级体验现代浏览器的顺畅吧！</label>
+			<a href="http://windows.microsoft.com/zh-cn/internet-explorer/download-ie" title="下载高本版的ie浏览器，ie19...">下载IE高版本浏览器ie9+</a>或
+			使用<a href="http://rj.baidu.com/soft/detail/14744.html?ald" title="谷歌浏览器下载">chrome</a>
+		<![endif]-->
+		<div class="box">
+			<canvas class="canvas_ele" width="400px" height="200px">
+				浏览器不支持canvas.
+			</canvas><br>
+			<button>再试一次</button>
+		</div>
+		<script type="text/javascript">
+			(function(){
+				function getPic(box){
+					this.box=box;								//包含框
+					this.btn=box.querySelector("button");		//按钮
+					this.oCan=box.querySelector(".canvas_ele");		//canvas对象
+					this.ctx=this.oCan.getContext("2d");				//2d对象
+					this.ow=this.oCan.width;							//画布宽度
+					this.oh=this.oCan.height;						//画布高度
+					this.isIn=false;							//监听移入
+					this.arr=["再来一次","美女一只","国内5日游","入门","得道","那你很棒哦","我本来就很棒","我本来就很棒"];
+					this.txtWidth=0;
+					this.code="";
+					this.l=this.oCan.offsetLeft;
+					this.t=this.oCan.offsetTop;
+				}
+				getPic.prototype={
+					init:function(){
+						var a=this;
+						var nindex=parseInt(Math.random()*a.arr.length);
+						a.code=a.arr[nindex];
+						a.ctx.beginPath();
+						a.ctx.globalCompositeOperation = "source-over";
+						a.ctx.fillStyle="#ccc";
+						a.ctx.fillRect(0, 0, a.ow,a.oh);
+						a.ctx.font = (a.oh * 2 / 5) + "px Arial";
+						a.ctx.fillStyle="#24e";
+						a.txtWidth=a.ctx.measureText(a.code).width;
+					},
+					setFunc:function(){
+						this.init();
+						this.bindFunc();
+					},
+					bindFunc:function(){
+						var a=this;
+						a.oCan.onmousedown=function(ev){
+							a.isIn=true;
+							var x=ev.clientX-a.l;
+							var y=ev.clientY-a.t;
+							a.ctx.lineWidth=10;
+							a.ctx.moveTo(x,y);
+						}
+						a.oCan.onmousemove=function(ev){
+							if(a.isIn){
+								var x=ev.clientX-a.l;
+								var y=ev.clientY-a.t;
+								a.ctx.globalCompositeOperation = "destination-out";
+								a.ctx.lineTo(x,y);
+								a.ctx.stroke();
+								a.ctx.globalCompositeOperation = "destination-over";
+								a.ctx.fillText(a.code, (a.ow- a.txtWidth) / 2, a.oh * 3/5, a.ow)
+							}
+						}
+						document.onmouseup=function(){
+							a.isIn=false;
+						}
+						a.btn.onclick=function(){
+							a.init();
+						}
+						document.onseletstart=function(){
+							return false;
+						}
+					}
+				}
+				var obox=document.querySelector(".box");
+				var cut=new getPic(obox);
+				cut.setFunc();
+			})();
+			
+		</script>
+	</body>
+</html>

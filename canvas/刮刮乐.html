@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>刮刮乐</title>
+    <script src="https://cdn.bootcss.com/jquery/1.8.3/jquery.js"></script>
+    <style>
+        .content{
+            width:900px;
+            height: 500px;
+        background: url("images/zj.jpg") no-repeat;
+            margin: 0 auto;
+overflow: hidden;
+            position: relative
+        }
+        p{ width: 300px;height: 50px; background: #fff; margin: 0 auto; margin-top: 380px; margin-left: 360px; line-height: 50px;
+        text-align: center;display: block; }
+        #Canvas{ margin-left: 360px;position: absolute; bottom: 70px;cursor: pointer}
+    </style>
+</head>
+<body>
+<div class="content">
+    <p>日韩一日游</p>
+    <canvas width="300" height="50" id="Canvas">你的浏览器版本太低</canvas>
+</div>
+</body>
+</html>
+<script>
+	window.onload=function(e){
+        var canva=document.getElementById("Canvas");
+        if(canva.getContext){
+            var inghei=100;
+            canva2D=canva.getContext("2d");
+            canva2D.fillStyle="#ccc";
+            canva2D.fillRect(0,0,300,50);
+            //鼠标移动到“灰色上”
+            canva.onmousemove=function(e){
+                var  canavOffest = $(canva).offset();
+                var canvX=Math.floor(e.pageX - canavOffest.left);
+                var canvY=Math.floor(e.pageY-canavOffest.top);
+                var canvY =canvY+ parseInt(inghei);
+                lottery(canvX,canvY,canva2D);
+            }
+           function lottery(x,y,c){
+            c.clearRect(x,y-inghei,20,20);
+
+            }
+            //移动端手滑动
+            canva.addEventListener('touchmove',function(event){
+                //如果触屏时只有一只手
+                if(event.targetTouches.length == 1){
+                    event.preventDefault();// 阻止浏览器默认事件，重要
+                    var touch = event.targetTouches[0];
+                    var  canavOffest = $(canva).offset();
+                    var canvX=Math.floor(touch.pageX - canavOffest.left);
+                    var canvY=Math.floor(touch.pageY-canavOffest.top);
+                    var canvY =canvY+ parseInt(inghei);
+                    lottery(touch.canvX,touch.canvY,canva2D);
+                }
+
+            },false);
+        }
+    }
+</script>

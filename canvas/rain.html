@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			*{
+				margin:0;
+				padding:0;
+			}
+			body{
+				overflow: hidden;
+				background:url(img/winner.jpg) no-repeat;
+				background-size: 100% 100%;
+			}
+		</style>
+	</head>
+	<body>
+		<canvas></canvas>
+	</body>
+</html>
+<script>
+	var canvas = document.getElementsByTagName("canvas")[0];
+	var w = canvas.width = window.innerWidth;
+	var h = canvas.height = window.innerHeight;
+	var ctx = canvas.getContext("2d");
+	ctx.strokeStyle="rgba(174,194,224,.5)"; // 雨丝的背景颜色
+	ctx.lineWidth = 2;
+	ctx.lineCap ="round";// 设置线冒
+	var maxPart = 500;
+	var arr = [];
+	for(var i=0;i<maxPart;i++){
+		arr.push({
+			x:Math.random()*w,
+			y:Math.random()*h,
+			xs:-10*Math.random()+6,
+			ys:Math.random()*10+10,
+			l:Math.random()*1
+		})
+	}
+	var str = [];
+	for(var i=0;i<maxPart;i++){
+		str[i] = arr[i];
+	}
+	function draw(){
+		ctx.clearRect(0,0,w,h);
+		var l = str.length;
+		for(var i = 0; i<l;i++){
+			var p = str[i];
+			ctx.beginPath();
+			ctx.moveTo(p.x,p.y);
+			ctx.lineTo(p.x+p.l+p.xs,p.l+p.y+p.ys);
+			ctx.stroke();
+			ctx.closePath();
+		}
+		move();
+		requestAnimationFrame(draw);
+	}
+	function move(){
+		var l = str.length;
+		for(var i=0;i<l;i++){
+			var p = str[i];
+			p.x+=p.xs;
+			p.y+=p.ys;
+			if(p.x>w||p.y>h){
+				p.x = Math.random()*w;
+				p.y = -20;
+			}
+		}
+	}
+	requestAnimationFrame(draw);
+	
+	
+</script>
